@@ -27,31 +27,45 @@ const rules = [
 const findRule = "znajdz(X)"
 
 
-function getAnswers() {
-    return []
-}
-
 function getAnswersProvider(facts) {
     return new Promise((resolve, reject) => {
         const query = getGoalQuery(facts)
-        console.log(query)
 
         getQueryProvider(query).then(session => {
-            resolve(session)
+            let answers = []
+
+            answerReader(session)
+                .then(answer => next(answer))
+                .catch(reason => reject(reason))
+
+            function next(answer) {
+                if (answer === false) {
+                    resolve(answers)
+                    return
+                }
+                answers.push(answer)
+
+                answerReader(session)
+                    .then(answer => next(answer))
+                    .catch(reason => reject(reason))
+            }
+
         }).catch(reason => {
             reject(reason)
         })
     })
 }
 
-// function answerReader(session) {
-//     session.answer({
-//         success: function(answer) { /* Answer */ },
-//         error:   function(err) { /* Uncaught error */ },
-//         fail:    function() { /* Fail */ },
-//         limit:   function() { /* Limit exceeded */ }
-//     })
-// }
+function answerReader(session) {
+    return new Promise((resolve, reject) => {
+        session.answer({
+            success: answer => resolve(answer.links["X"].id),
+            error: err => reject(err),
+            fail: () => resolve(false),
+            limit: () => reject('limit exceeded.')
+        })
+    })
+}
 
 function getGoalQuery(facts) {
     return [
@@ -98,4 +112,4 @@ function getProgram() {
 }
 
 
-export { getAnswersProvider, getAnswers }
+export { getAnswersProvider }

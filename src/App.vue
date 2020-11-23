@@ -59,17 +59,8 @@ export default {
   },
   methods: {
     run() {
-      this.results = []
-      getAnswersProvider(this.facts).then(session => {
-        session.answers(answer => {
-          // console.log(answer)
-          // console.log(pl.format_answer(answer))
-
-          if (answer === false) {
-            return
-          }
-          this.results.push(answer.links["X"].id)
-        })
+      getAnswersProvider(this.facts).then(answers => {
+        this.results = answers
       }).catch(err => {
         console.log(err)
       })
