@@ -1,28 +1,89 @@
 <template>
-  <div id="app">
+  <section class="section">
+    <div class="container">
+      <h1 class="title">Section</h1>
+      <h2 class="subtitle">
+        A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
+      </h2>
 
-    <p>Kolor</p>
-    <input type="radio" id="c1" value="zolty" v-model="color">
-    <label for="n1">Żółty</label>
-    <input type="radio" id="c2" value="zielony" v-model="color">
-    <label for="n2">Zielony</label>
-    <input type="radio" id="c3" value="czerwony" v-model="color">
-    <label for="n2">Czerwony</label>
-    <input type="radio" id="c4" value="czarny" v-model="color">
-    <label for="n2">Czarny</label>
-<!--    <p>{{color}}</p>-->
+      <div class="content"> <!--box-->
+        <form>
+          <b-field label="Kolor">
+            <b-radio v-model="color"
+                     name="color"
+                     native-value="zolty">
+              Żółty
+            </b-radio>
+            <b-radio v-model="color"
+                     name="color"
+                     native-value="zielony">
+              Zielony
+            </b-radio>
+            <b-radio v-model="color"
+                     name="color"
+                     native-value="czerwony">
+              Czerwony
+            </b-radio>
+            <b-radio v-model="color"
+                     name="color"
+                     native-value="czarny">
+              Czarny
+            </b-radio>
+          </b-field>
+          <!--    <p class="content">-->
+          <!--      <b>Selection:</b>-->
+          <!--      {{ color }}-->
+          <!--    </p>-->
 
-    <p>Numer</p>
-    <input type="radio" id="n1" value="parzysty" v-model="number">
-    <label for="n1">Parzysty</label>
-    <input type="radio" id="n2" value="nieparzysty" v-model="number">
-    <label for="n2">Nieparzysty</label>
-<!--    <p>{{number}}</p>-->
-    <p/>
+          <b-field label="Numer">
+            <b-radio v-model="number"
+                     name="number"
+                     native-value="parzysty">
+              Parzysty
+            </b-radio>
+            <b-radio v-model="number"
+                     name="number"
+                     native-value="nieparzysty">
+              Nieparzysty
+            </b-radio>
+          </b-field>
+          <!--    <p class="content">-->
+          <!--      <b>Selection:</b>-->
+          <!--      {{ number }}-->
+          <!--    </p>-->
 
-    <button @click="run">Run it</button>
-    <p v-for="(result, index) in results" :key="index">{{result}}</p>
-  </div>
+            <b-button
+                type="is-primary"
+                @click="run">
+              Run it
+            </b-button>
+        </form>
+      </div>
+
+      <h1 class="title">Results</h1>
+      <div
+          class="box"
+          v-for="(result, index) in results"
+          :key="index">
+        <article class="media">
+          <div class="media-left">
+            <figure class="image is-128x128">
+              <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
+            </figure>
+          </div>
+          <div class="media-content">
+            <div class="content">
+              <p>
+                <strong>{{result}}</strong>
+                <br>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -69,13 +130,3 @@ export default {
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
