@@ -8,15 +8,23 @@
 
       <div class="content"> <!--box-->
         <form>
-          <b-field label="Typ">
-            <b-radio-button v-model="chosen.typ" v-for="item in typ" :key="item" :native-value="item">
-              {{ item }}
+          <b-field :label="typeProperty.displayName">
+            <b-radio-button v-model="chosen[typeProperty.name]" v-for="(value, index) in typeProperty.values" :key="`value_${index}`" :native-value="value.name">
+              {{ value.displayName }}
             </b-radio-button>
           </b-field>
 
-          <b-field label="Zimozielone">
-            <b-radio-button v-model="chosen.zimozielone" v-for="item in zimozielone" :key="item" :native-value="item">
-              {{ item }}
+          <b-field
+            v-for="(property, index) in commonProperties"
+            :key="`property_${index}`"
+            :label="property.displayName">
+
+            <b-radio-button
+              v-for="(value, valueIndex) in property.values"
+              :key="`value_${valueIndex}`"
+              v-model="chosen[property.name]"
+              :native-value="value.name">
+              {{ value.displayName }}
             </b-radio-button>
           </b-field>
 
@@ -104,7 +112,7 @@
           </template>
 
           <!-- <b-field v-for="(property, value) in chosen" :label="property" :key="value">
-            <b-radio-button v-model="this.property" v-for="item in this.property" :key="item" :native-value="item">
+            <b-radio-button v-model="this[property]" v-for="item in this[property]" :key="item" :native-value="item">
               {{ item }}
             </b-radio-button>
           </b-field> -->
@@ -152,8 +160,24 @@ export default {
   name: 'App',
   data: () => {
     return {
-      typ: ['lisciaste', 'iglaste'],
-      zimozielone: ['tak', 'nie'],
+      typeProperty: {
+        name: 'typ',
+        displayName: 'Typ',
+        values: [
+          { name: 'lisciaste', displayName: 'Liściaste' },
+          { name: 'iglaste', displayName: 'Iglaste' }
+        ]
+      },
+      commonProperties: [
+        {
+          name: 'zimozielone',
+          displayName: 'Zimozielone',
+          values: [
+            { name: 'tak', displayName: 'Tak' },
+            { name: 'nie', displayName: 'Nie' }
+          ]
+        }
+      ],
       kora: ['bura', 'brunatna', 'jasna', 'szara', 'popielata', 'brazowa', 'biala'],
       pokroj: ['okraglawy', 'kolumnowy', 'stozkowaty'],
       korona: ['rozlozysta', 'kopulasta', 'luzna', 'gesta', 'szeroka', 'stozkowata'],
