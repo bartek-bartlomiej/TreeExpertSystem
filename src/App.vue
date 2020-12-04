@@ -419,7 +419,7 @@ export default {
   watch: {
     results(value) {
       let element = value !== null ? '#results' : '#system'
-      VueScrollTo.scrollTo(element, 750)
+      VueScrollTo.scrollTo(element, 750, { easing: 'ease-in-out' })
     }
   },
   methods: {
