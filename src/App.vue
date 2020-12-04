@@ -9,113 +9,60 @@
       <div class="content"> <!--box-->
         <form>
           <b-field :label="typeProperty.displayName">
-            <b-radio-button v-model="chosen[typeProperty.name]" v-for="(value, index) in typeProperty.values" :key="`value_${index}`" :native-value="value.name">
+            <b-radio-button 
+              v-for="(value, index) in typeProperty.values"
+              v-model="chosen[typeProperty.name]" 
+              :key="`type_value_${index}`" 
+              :native-value="value.name">
               {{ value.displayName }}
             </b-radio-button>
           </b-field>
 
           <b-field
             v-for="(property, index) in commonProperties"
-            :key="`property_${index}`"
+            :key="`common_property_${index}`"
             :label="property.displayName">
 
             <b-radio-button
               v-for="(value, valueIndex) in property.values"
-              :key="`value_${valueIndex}`"
+              :key="`common_value_${valueIndex}`"
               v-model="chosen[property.name]"
               :native-value="value.name">
               {{ value.displayName }}
             </b-radio-button>
           </b-field>
 
-          <b-field label="Kora">
-            <b-radio-button v-model="chosen.kora" v-for="item in kora" :key="item" :native-value="item">
-              {{ item }}
-            </b-radio-button>
-          </b-field>
-
-          <b-field label="Pokrój">
-            <b-radio-button v-model="chosen.pokroj" v-for="item in pokroj" :key="item" :native-value="item">
-              {{ item }}
-            </b-radio-button>
-          </b-field>
-
-          <b-field label="Korona">
-            <b-radio-button v-model="chosen.korona" v-for="item in korona" :key="item" :native-value="item">
-              {{ item }}
-            </b-radio-button>
-          </b-field>
-
-          <b-field label="Owoc">
-            <b-radio-button v-model="chosen.owoc" v-for="item in owoc" :key="item" :native-value="item">
-              {{ item }}
-            </b-radio-button>
-          </b-field>
-
           <template v-if="chosen.typ === 'lisciaste'">
-            <b-field label="Kształt liścia">
-              <b-radio-button v-model="chosen.ksztalt_liscia" v-for="item in ksztalt_liscia" :key="item" :native-value="item">
-                {{ item }}
-              </b-radio-button>
-            </b-field>
+            <b-field
+              v-for="(property, index) in leafProperties"
+              :key="`leaf_property_${index}`"
+              :label="property.displayName">
 
-            <b-field label="Krawędź liścia">
-              <b-radio-button v-model="chosen.krawedz_liscia" v-for="item in krawedz_liscia" :key="item" :native-value="item">
-                {{ item }}
-              </b-radio-button>
-            </b-field>
-
-            <b-field label="Położenie liścia">
-              <b-radio-button v-model="chosen.polozenie_liscia" v-for="item in polozenie_liscia" :key="item" :native-value="item">
-                {{ item }}
-              </b-radio-button>
-            </b-field>
-
-            <b-field label="Krotność liścia">
-              <b-radio-button v-model="chosen.krotnosc_liscia" v-for="item in krotnosc_liscia" :key="item" :native-value="item">
-                {{ item }}
+              <b-radio-button
+                v-for="(value, valueIndex) in property.values"
+                :key="`leaf_value_${valueIndex}`"
+                v-model="chosen[property.name]"
+                :native-value="value.name">
+                {{ value.displayName }}
               </b-radio-button>
             </b-field>
           </template>
 
           <template v-if="chosen.typ === 'iglaste'">
-            <b-field label="Długość igły">
-              <b-radio-button v-model="chosen.dlugosc_igly" v-for="item in dlugosc_igly" :key="item" :native-value="item">
-                {{ item }}
+            <b-field
+              v-for="(property, index) in coniferousProperties"
+              :key="`needle_property_${index}`"
+              :label="property.displayName">
+
+              <b-radio-button
+                v-for="(value, valueIndex) in property.values"
+                :key="`needle_value_${valueIndex}`"
+                v-model="chosen[property.name]"
+                :native-value="value.name">
+                {{ value.displayName }}
               </b-radio-button>
             </b-field>
-
-            <b-field label="Miękkość igły">
-              <b-radio-button v-model="chosen.miekkosc_igly" v-for="item in miekkosc_igly" :key="item" :native-value="item">
-                {{ item }}
-              </b-radio-button>
-            </b-field>
-
-            <b-field label="Kolor igły">
-              <b-radio-button v-model="chosen.kolor_igly" v-for="item in kolor_igly" :key="item" :native-value="item">
-                {{ item }}
-              </b-radio-button>
-            </b-field>
-
-            <b-field label="Kształt szyszki">
-              <b-radio-button v-model="chosen.ksztalt_szyszki" v-for="item in ksztalt_szyszki" :key="item" :native-value="item">
-                {{ item }}
-              </b-radio-button>
-            </b-field>
-
-            <b-field label="Wektor szyszki">
-              <b-radio-button v-model="chosen.wektor_szyszki" v-for="item in wektor_szyszki" :key="item" :native-value="item">
-                {{ item }}
-              </b-radio-button>
-            </b-field>
-
           </template>
-
-          <!-- <b-field v-for="(property, value) in chosen" :label="property" :key="value">
-            <b-radio-button v-model="this[property]" v-for="item in this[property]" :key="item" :native-value="item">
-              {{ item }}
-            </b-radio-button>
-          </b-field> -->
 
           <b-button type="is-primary" @click="run" class="mr-3">
             Uruchom
@@ -153,7 +100,6 @@
 </template>
 
 <script>
-// import pl from 'tau-prolog'
 import { getAnswersProvider } from './backend'
 
 export default {
@@ -164,8 +110,8 @@ export default {
         name: 'typ',
         displayName: 'Typ',
         values: [
-          { name: 'lisciaste', displayName: 'Liściaste' },
-          { name: 'iglaste', displayName: 'Iglaste' }
+          { name: 'lisciaste', displayName: 'liściaste' },
+          { name: 'iglaste', displayName: 'iglaste' }
         ]
       },
       commonProperties: [
@@ -173,24 +119,145 @@ export default {
           name: 'zimozielone',
           displayName: 'Zimozielone',
           values: [
-            { name: 'tak', displayName: 'Tak' },
-            { name: 'nie', displayName: 'Nie' }
+            { name: 'tak', displayName: 'tak' },
+            { name: 'nie', displayName: 'nie' }
+          ]
+        },
+        {
+          name: 'kora',
+          displayName: 'Kora',
+          values: [
+            { name: 'bura', displayName: 'bura' },
+            { name: 'brunatna', displayName: 'brunatna' },
+            { name: 'jasna', displayName: 'jasna' },
+            { name: 'szara', displayName: 'szara' },
+            { name: 'popielata', displayName: 'popielata' },
+            { name: 'brazowa', displayName: 'brązowa' },
+            { name: 'biala', displayName: 'biała' }
+          ]
+        },
+        {
+          name: 'pokroj',
+          displayName: 'Pokrój',
+          values: [
+            { name: 'okraglawy', displayName: 'okrągławy' },
+            { name: 'kolumnowy', displayName: 'kolumnowy' },
+            { name: 'stozkowaty', displayName: 'stożkowaty' }
+          ]
+        },
+        {
+          name: 'korona',
+          displayName: 'Korona',
+          values: [
+            { name: 'rozlozysta', displayName: 'rozłożysta' },
+            { name: 'kopulasta', displayName: 'kopulasta' },
+            { name: 'luzna', displayName: 'luźna' },
+            { name: 'gesta', displayName: 'gęsta' },
+            { name: 'szeroka', displayName: 'szeroka' },
+            { name: 'stozkowata', displayName: 'stożkowata' }
+          ]
+        },
+        {
+          name: 'owoc',
+          displayName: 'Owoc',
+          values: [
+            { name: 'zoladz', displayName: 'żołądź' },
+            { name: 'orzech', displayName: 'orzech' },
+            { name: 'kulka', displayName: 'kulka' },
+            { name: 'bukiew', displayName: 'bukiew' },
+            { name: 'kasztan', displayName: 'kasztan' },
+            { name: 'szyszka', displayName: 'szyszka' }
           ]
         }
       ],
-      kora: ['bura', 'brunatna', 'jasna', 'szara', 'popielata', 'brazowa', 'biala'],
-      pokroj: ['okraglawy', 'kolumnowy', 'stozkowaty'],
-      korona: ['rozlozysta', 'kopulasta', 'luzna', 'gesta', 'szeroka', 'stozkowata'],
-      owoc: ['zoladz', 'orzech', 'kulka', 'bukiew', 'kasztan', 'szyszka'],
-      ksztalt_liscia: ['klapiste', 'odwrocone_serca', 'sercowate', 'podluzne', 'jajowate', 'eliptyczne', 'okraglawe', 'palczaste'],
-      krawedz_liscia: ['gladka', 'pilkowana', 'karbowana', 'zabkowana'],
-      polozenie_liscia: ['skretolegle', 'naprzemianlegle'],
-      krotnosc_liscia: ['pojedyncze', 'pierzasto_zlozone'],
-      dlugosc_igly: ['dlugie', 'krotkie'],
-      miekkosc_igly: ['klujace', 'miekkie'],
-      kolor_igly: ['niebiesko_zielone', 'zielony_z_2_paskami', 'zielone'],
-      ksztalt_szyszki: ['okraglawy', 'podluzny'],
-      wektor_szyszki: ['wzniesiona', 'zwisajaca', '?'],
+
+      leafProperties: [
+        {
+          name: 'ksztalt_liscia',
+          displayName: 'Kształt liścia',
+          values: [
+            { name: 'klapiste', displayName: 'klapiste' },
+            { name: 'odwrocone_serca', displayName: 'odwrócone serca' },
+            { name: 'sercowate', displayName: 'sercowate' },
+            { name: 'podluzne', displayName: 'podłużne' },
+            { name: 'jajowate', displayName: 'jajowate' },
+            { name: 'eliptyczne', displayName: 'eliptyczne' },
+            { name: 'okraglawe', displayName: 'okrągławe' },
+            { name: 'palczaste', displayName: 'palczaste' }
+          ]
+        },
+        {
+          name: 'krawedz_liscia',
+          displayName: 'Krawędź liścia',
+          values: [
+            { name: 'gladka', displayName: 'gładka' },
+            { name: 'pilkowana', displayName: 'piłkowana' },
+            { name: 'karbowana', displayName: 'karbowana' },
+            { name: 'zabkowana', displayName: 'ząbkowana' }
+          ]
+        },
+        {
+          name: 'polozenie_liscia',
+          displayName: 'Położenie liścia',
+          values: [
+            { name: 'skretolegle', displayName: 'skrętoległe' },
+            { name: 'naprzemianlegle', displayName: 'naprzemianległe' }
+          ]
+        },
+        {
+          name: 'krotnosc_liscia',
+          displayName: 'Krotność liścia',
+          values: [
+            { name: 'pojedyncze', displayName: 'pojedyncze' },
+            { name: 'pierzasto_zlozone', displayName: 'pierzasto złożone' }
+          ]
+        }
+      ],
+
+      coniferousProperties: [
+        {
+          name: 'dlugosc_igly',
+          displayName: 'Długość igły',
+          values: [
+            { name: 'dlugie', displayName: 'długie' },
+            { name: 'krotkie', displayName: 'krótkie' }
+          ]
+        },
+        {
+          name: 'miekkosc_igly',
+          displayName: 'Miękkość igły',
+          values: [
+            { name: 'klujace', displayName: 'kłujące' },
+            { name: 'miekkie', displayName: 'miękkie' }
+          ]
+        },
+        {
+          name: 'kolor_igly',
+          displayName: 'Kolor igły',
+          values: [
+            { name: 'niebiesko_zielone', displayName: 'niebiesko zielone' },
+            { name: 'zielony_z_2_paskami', displayName: 'zielony z 2 paskami' },
+            { name: 'zielone', displayName: 'zielone' }
+          ]
+        },
+        {
+          name: 'ksztalt_szyszki',
+          displayName: 'Kształt szyszki',
+          values: [
+            { name: 'okraglawy', displayName: 'okrągławy' },
+            { name: 'podluzny', displayName: 'podłużny' }
+          ]
+        },
+        {
+          name: 'wektor_szyszki',
+          displayName: 'Wektor szyszki',
+          values: [
+            { name: 'wzniesiona', displayName: 'wzniesiona' },
+            { name: 'zwisajaca', displayName: 'zwisająca' },
+            { name: '?', displayName: 'dowolna' }
+          ]
+        }
+      ],
 
       chosen: {
         typ: null,
