@@ -8,43 +8,71 @@
 
       <div class="content"> <!--box-->
         <form>
-          <b-field :label="typeProperty.displayName">
-            <b-radio-button 
-              v-for="(value, index) in typeProperty.values"
-              v-model="chosen[typeProperty.name]" 
-              :key="`type_value_${index}`" 
-              :native-value="value.name">
-              {{ value.displayName }}
-            </b-radio-button>
+          <b-field
+              :label="typeProperty.displayName"
+              grouped>
+            <b-field>
+              <b-radio-button
+                  v-for="(value, index) in typeProperty.values"
+                  v-model="chosen[typeProperty.name]"
+                  :key="`type_value_${index}`"
+                  :native-value="value.name">
+                {{ value.displayName }}
+              </b-radio-button>
+            </b-field>
+
+            <b-button
+                type="is-light"
+                icon-right="delete"
+                :disabled="chosen.typ === null"
+                @click="chosen.typ = null" />
           </b-field>
 
           <b-field
             v-for="(property, index) in commonProperties"
             :key="`common_property_${index}`"
-            :label="property.displayName">
+            :label="property.displayName"
+            grouped>
 
-            <b-radio-button
-              v-for="(value, valueIndex) in property.values"
-              :key="`common_value_${valueIndex}`"
-              v-model="chosen[property.name]"
-              :native-value="value.name">
-              {{ value.displayName }}
-            </b-radio-button>
+            <b-field>
+              <b-radio-button
+                  v-for="(value, valueIndex) in property.values"
+                  :key="`common_value_${valueIndex}`"
+                  v-model="chosen[property.name]"
+                  :native-value="value.name">
+                {{ value.displayName }}
+              </b-radio-button>
+            </b-field>
+
+            <b-button
+                type="is-light"
+                icon-right="delete"
+                :disabled="chosen[property.name] === null"
+                @click="chosen[property.name] = null" />
           </b-field>
 
           <template v-if="chosen.typ === 'lisciaste'">
             <b-field
               v-for="(property, index) in leafProperties"
               :key="`leaf_property_${index}`"
-              :label="property.displayName">
+              :label="property.displayName"
+              grouped>
 
-              <b-radio-button
-                v-for="(value, valueIndex) in property.values"
-                :key="`leaf_value_${valueIndex}`"
-                v-model="chosen[property.name]"
-                :native-value="value.name">
-                {{ value.displayName }}
-              </b-radio-button>
+              <b-field>
+                <b-radio-button
+                    v-for="(value, valueIndex) in property.values"
+                    :key="`leaf_value_${valueIndex}`"
+                    v-model="chosen[property.name]"
+                    :native-value="value.name">
+                  {{ value.displayName }}
+                </b-radio-button>
+              </b-field>
+
+              <b-button
+                  type="is-light"
+                  icon-right="delete"
+                  :disabled="chosen[property.name] === null"
+                  @click="chosen[property.name] = null" />
             </b-field>
           </template>
 
@@ -52,15 +80,24 @@
             <b-field
               v-for="(property, index) in coniferousProperties"
               :key="`needle_property_${index}`"
-              :label="property.displayName">
+              :label="property.displayName"
+              grouped>
 
-              <b-radio-button
-                v-for="(value, valueIndex) in property.values"
-                :key="`needle_value_${valueIndex}`"
-                v-model="chosen[property.name]"
-                :native-value="value.name">
-                {{ value.displayName }}
-              </b-radio-button>
+              <b-field>
+                <b-radio-button
+                    v-for="(value, valueIndex) in property.values"
+                    :key="`needle_value_${valueIndex}`"
+                    v-model="chosen[property.name]"
+                    :native-value="value.name">
+                  {{ value.displayName }}
+                </b-radio-button>
+              </b-field>
+
+              <b-button
+                  type="is-light"
+                  icon-right="delete"
+                  :disabled="chosen[property.name] === null"
+                  @click="chosen[property.name] = null" />
             </b-field>
           </template>
 
