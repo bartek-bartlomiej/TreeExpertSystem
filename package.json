@@ -12,7 +12,8 @@
     "core-js": "^3.6.5",
     "tau-prolog": "^0.3.0",
     "vue": "^2.6.11",
-    "@mdi/font": "^5.8.55"
+    "@mdi/font": "^5.8.55",
+    "vue-scrollto": "^2.20.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

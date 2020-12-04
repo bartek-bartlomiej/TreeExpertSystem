@@ -1,7 +1,10 @@
 <template>
   <section class="section">
     <div class="container">
-      <h1 class="title">Drzewiasty system ekspertowy</h1>
+      <h1 class="title"
+          id="system">
+        Drzewiasty system ekspertowy
+      </h1>
       <h2 class="subtitle">
         Wybierz proszę cechy charakterystyczne Twojego drzewa, a ja podam Ci jego gatunek.
       </h2>
@@ -121,7 +124,10 @@
         </form>
       </div>
 
-      <h1 class="title">Wyniki</h1>
+      <h1 class="title"
+          id="results">
+        Wyniki
+      </h1>
       <div
           class="box"
           v-for="(result, index) in results"
@@ -152,6 +158,8 @@
 
 <script>
 import { getAnswersProvider } from './backend'
+
+import VueScrollTo from "vue-scrollto"
 
 export default {
   name: 'App',
@@ -406,6 +414,12 @@ export default {
       }
       // console.log(facts)
       return facts
+    }
+  },
+  watch: {
+    results(value) {
+      let element = value !== null ? '#results' : '#system'
+      VueScrollTo.scrollTo(element, 750)
     }
   },
   methods: {
