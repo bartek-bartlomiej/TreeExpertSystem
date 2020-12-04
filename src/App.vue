@@ -101,13 +101,23 @@
             </b-field>
           </template>
 
-          <b-button type="is-primary" @click="run" class="mr-3">
-            Uruchom
-          </b-button>
-          
-          <b-button type="is-primary" @click="clear">
-            Nowe zapytanie
-          </b-button>
+          <div class="buttons mt-6">
+            <b-button 
+                type="is-primary is-medium" 
+                icon-left="nature" 
+                @click="run" 
+                class="mr-3">
+              Uruchom
+            </b-button>
+            
+            <b-button 
+                type="is-primary is-medium" 
+                icon-left="replay" 
+                outlined 
+                @click="clear">
+              Nowe zapytanie
+            </b-button>
+          </div>
         </form>
       </div>
 
@@ -119,15 +129,19 @@
         <article class="media">
           <div class="media-left">
             <figure class="image">
-              <img :src="getImageURL(result)" v-bind:alt="result">
+              <b-image 
+                :src="treeData[result].image" 
+                :alt="result"
+                style="max-width:343px"
+              ></b-image>
             </figure>
           </div>
           <div class="media-content">
             <div class="content">
               <h2>
-                <strong>{{result}}</strong>
+                <strong>{{ treeData[result].displayName }}</strong>
               </h2>
-              [Opis drzewa]
+              {{ treeData[result].description }}
             </div>
           </div>
         </article>
@@ -315,19 +329,67 @@ export default {
       },
       results: [],
 
-      images: {
-        dab: "http://ekoexpo.pl/files/obrazki%20artykuly/quercus-robur003.jpeg",
-        lipa: "https://upload.wikimedia.org/wikipedia/commons/8/8b/Tilia_cordata_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-139.jpg",
-        jarzab: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Illustration_Sorbus_aucuparia0.jpg/800px-Illustration_Sorbus_aucuparia0.jpg",
-        olcha: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Illustration_Alnus_glutinosa0.jpg/800px-Illustration_Alnus_glutinosa0.jpg",
-        buk: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Illustration_Fagus_sylvatica0.jpg/800px-Illustration_Fagus_sylvatica0.jpg",
-        grab: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Illustration_Carpinus_betulus_1.jpg/800px-Illustration_Carpinus_betulus_1.jpg",
-        brzoza: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Illustration_Betula_pendula0.jpg/800px-Illustration_Betula_pendula0.jpg",
-        kasztanowiec: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Illustration_Aesculus_hippocastanum0.jpg/371px-Illustration_Aesculus_hippocastanum0.jpg",
-        sosna: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Illustration_Pinus_sylvestris0.jpg/800px-Illustration_Pinus_sylvestris0.jpg",
-        jodla: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Illustration_Abies_alba0.jpg/392px-Illustration_Abies_alba0.jpg",
-        swierk: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Illustration_Picea_abies0_clean.jpg/447px-Illustration_Picea_abies0_clean.jpg",
-        modrzew: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Illustration_Larix_decudua0.jpg/448px-Illustration_Larix_decudua0.jpg"
+      treeData: {
+        dab: {
+          displayName: "Dąb",
+          description: "",
+          image: "http://ekoexpo.pl/files/obrazki%20artykuly/quercus-robur003.jpeg",
+        },
+        lipa: {
+          displayName: "Lipa",
+          description: "",
+          image: "https://upload.wikimedia.org/wikipedia/commons/8/8b/Tilia_cordata_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-139.jpg",
+        },
+        jarzab: {
+          displayName: "Jarząb",
+          description: "",
+          image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Illustration_Sorbus_aucuparia0.jpg/800px-Illustration_Sorbus_aucuparia0.jpg",
+        },
+        olcha: {
+          displayName: "Olcha",
+          description: "",
+          image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Illustration_Alnus_glutinosa0.jpg/800px-Illustration_Alnus_glutinosa0.jpg",
+        },
+        buk: {
+          displayName: "Buk",
+          description: "",
+          image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Illustration_Fagus_sylvatica0.jpg/800px-Illustration_Fagus_sylvatica0.jpg",
+        },
+        grab: {
+          displayName: "Grab",
+          description: "",
+          image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Illustration_Carpinus_betulus_1.jpg/800px-Illustration_Carpinus_betulus_1.jpg",
+        },
+        brzoza: {
+          displayName: "Brzoza",
+          description: "",
+          image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Illustration_Betula_pendula0.jpg/800px-Illustration_Betula_pendula0.jpg",
+        },
+        kasztanowiec: {
+          displayName: "Kasztanowiec",
+          description: "",
+          image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Illustration_Aesculus_hippocastanum0.jpg/371px-Illustration_Aesculus_hippocastanum0.jpg",
+        },
+        sosna: {
+          displayName: "Sosna",
+          description: "",
+          image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Illustration_Pinus_sylvestris0.jpg/800px-Illustration_Pinus_sylvestris0.jpg",
+        },
+        jodla: {
+          displayName: "Jodła",
+          description: "",
+          image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Illustration_Abies_alba0.jpg/392px-Illustration_Abies_alba0.jpg",
+        },
+        swierk: {
+          displayName: "Świerk",
+          description: "",
+          image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Illustration_Picea_abies0_clean.jpg/447px-Illustration_Picea_abies0_clean.jpg",
+        },
+        modrzew: {
+          displayName: "Modrzew",
+          description: "",
+          image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Illustration_Larix_decudua0.jpg/448px-Illustration_Larix_decudua0.jpg",
+        }
       }
     }
   },
@@ -357,9 +419,6 @@ export default {
     clear() {
       Object.keys(this.chosen).forEach(k => this.chosen[k] = null)
       this.results = []
-    },
-    getImageURL(result) {
-      return this.images[result]
     }
   }
 }
