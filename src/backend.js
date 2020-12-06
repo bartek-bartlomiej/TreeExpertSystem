@@ -15,7 +15,17 @@ const database = [
     "drzewo(swierk,zimozielone(tak),kora(bura),pokroj(stozkowaty),korona(stozkowata),owoc(szyszka),iglaste(igly(dlugosc(krotkie),miekkosc(klujace),kolor(zielone)),szyszka(ksztalt(podluzny),wektor(zwisajaca)))).",
     "drzewo(modrzew,zimozielone(nie),kora(brazowa),pokroj(stozkowaty),korona([stozkowata, luzna]),owoc(szyszka),iglaste(igly(dlugosc(krotkie),miekkosc(klujace),kolor(zielone)),szyszka(ksztalt(okraglawy),wektor(wzniesiona)))).",
 
-    "specjalne_punkty(dab, zoladz, 4)."
+    "specjalne_punkty(dab, zoladz, 4).",
+    "specjalne_punkty(lipa, brunatna, 2).",
+    "specjalne_punkty(jarzab, kulka, 3).",
+    "specjalne_punkty(buk, bukiew, 4).",
+    "specjalne_punkty(brzoza, biala, 4).",
+    "specjalne_punkty(kasztanowiec, kasztan, 4).",
+    "specjalne_punkty(kasztanowiec, palczaste, 3).",
+    "specjalne_punkty(sosna, niebiesko_zielone, 2).",
+    "specjalne_punkty(jodla, zielony_z_2_paskami, 2).",
+    "specjalne_punkty(swierk, zwisajaca, 2).",
+    "specjalne_punkty(modrzew, nie, 3)."
 ]
 
 const rules = [
