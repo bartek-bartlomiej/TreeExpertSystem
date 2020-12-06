@@ -111,7 +111,7 @@ const rules = [
 
     "czy_owoc(T, X, P) :- czy_prawda(owoc, X), daj_punkty(T, X, P).",
 
-    "daj_punkty(T, X, P) :- specjalne_punkty(T, X, P).",
+    "daj_punkty(T, X, P) :- specjalne_punkty(T, X, P), !.",
     "daj_punkty(_, _, P) :- P is 1.",
 
     ":- dynamic([znane/2]).",
