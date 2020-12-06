@@ -13,75 +13,96 @@ const database = [
     "drzewo(sosna,zimozielone(tak),kora([szara, brazowa]),pokroj(stozkowaty),korona(luzna),owoc(szyszka),iglaste(igly(dlugosc(dlugie),miekkosc(klujace),kolor(niebiesko_zielone)),szyszka(ksztalt(okraglawy),wektor(wzniesiona)))).",
     "drzewo(jodla,zimozielone(tak),kora([popielata, szara]),pokroj(stozkowaty),korona(stozkowata),owoc(szyszka),iglaste(igly(dlugosc(krotkie),miekkosc(miekkie),kolor(zielony_z_2_paskami)),szyszka(ksztalt(podluzny),wektor(wzniesiona)))).",
     "drzewo(swierk,zimozielone(tak),kora(bura),pokroj(stozkowaty),korona(stozkowata),owoc(szyszka),iglaste(igly(dlugosc(krotkie),miekkosc(klujace),kolor(zielone)),szyszka(ksztalt(podluzny),wektor(zwisajaca)))).",
-    "drzewo(modrzew,zimozielone(nie),kora(brazowa),pokroj(stozkowaty),korona([stozkowata, luzna]),owoc(szyszka),iglaste(igly(dlugosc(krotkie),miekkosc(klujace),kolor(zielone)),szyszka(ksztalt(okraglawy),wektor(wzniesiona))))."
+    "drzewo(modrzew,zimozielone(nie),kora(brazowa),pokroj(stozkowaty),korona([stozkowata, luzna]),owoc(szyszka),iglaste(igly(dlugosc(krotkie),miekkosc(klujace),kolor(zielone)),szyszka(ksztalt(okraglawy),wektor(wzniesiona)))).",
+
+    "specjalne_punkty(dab, zoladz, 4)."
 ]
 
 const rules = [
-    "znajdz(X) :- lisciaste(X), !.",  
-    "znajdz(X) :- iglaste(X).",
-    
-    "lisciaste(X) :- testuj_typ(lisciaste),drzewo(X,_,_,_,_,_,lisciaste(liscie(ksztalt(Ksztalt),krawedz(Krawedz),polozenie(Polozenie),krotnosc(Krotnosc)))),testuj_lisciaste(X, Ksztalt, Krawedz, Polozenie, Krotnosc).",
-    "testuj_lisciaste(X, Ksztalt, Krawedz, Polozenie, Krotnosc) :- czy_liscie(Ksztalt, Krawedz, Polozenie, Krotnosc), cechy_wspolne(X), !.",
-    "testuj_lisciaste(_, Ksztalt, Krawedz, Polozenie, Krotnosc) :- czy_liscie(Ksztalt, Krawedz, Polozenie, Krotnosc), !.",
-    "testuj_lisciaste(X, _, _, _, _) :- cechy_wspolne(X).",
+    "znajdz(T, P) :- lisciaste(T, P).",
+    "znajdz(T, P) :- iglaste(T, P).",
 
-    "iglaste(X) :- testuj_typ(iglaste),drzewo(X,_,_,_,_,_,iglaste(igly(dlugosc(Dlugosc),miekkosc(Miekkosc),kolor(Kolor)),szyszka(ksztalt(Ksztalt),wektor(Wektor)))),testuj_iglaste(X, Dlugosc, Miekkosc, Kolor, Ksztalt, Wektor).",
-    "testuj_iglaste(X, Dlugosc, Miekkosc, Kolor, Ksztalt, Wektor) :- czy_igly(Dlugosc, Miekkosc, Kolor), czy_szyszka(Ksztalt, Wektor), cechy_wspolne(X), !.",
-    "testuj_iglaste(_, Dlugosc, Miekkosc, Kolor, Ksztalt, Wektor) :- czy_igly(Dlugosc, Miekkosc, Kolor), czy_szyszka(Ksztalt, Wektor), !.",
-    "testuj_iglaste(X, Dlugosc, Miekkosc, Kolor, _, _) :- czy_igly(Dlugosc, Miekkosc, Kolor), cechy_wspolne(X), !.",
-    "testuj_iglaste(X, _, _, _, Ksztalt, Wektor) :- czy_szyszka(Ksztalt, Wektor), cechy_wspolne(X), !.",
-    "testuj_iglaste(_, Dlugosc, Miekkosc, Kolor, _, _) :- czy_igly(Dlugosc, Miekkosc, Kolor), !.",
-    "testuj_iglaste(_, _, _, _, Ksztalt, Wektor) :- czy_szyszka(Ksztalt, Wektor).",
-    "testuj_iglaste(X, _, _, _, _, _) :- cechy_wspolne(X).",
+    "lisciaste(T, P) :- testuj_typ(lisciaste), drzewo(T,_,_,_,_,_,lisciaste(liscie(ksztalt(Ksztalt),krawedz(Krawedz),polozenie(Polozenie),krotnosc(Krotnosc)))), testuj_lisciaste(T, Ksztalt, Krawedz, Polozenie, Krotnosc, P).",
+    "testuj_lisciaste(T, Ksztalt, Krawedz, Polozenie, Krotnosc, P) :- czy_liscie(T, Ksztalt, Krawedz, Polozenie, Krotnosc, P1), cechy_wspolne(T, P2), P is P1 + P2, !.",
+    "testuj_lisciaste(T, Ksztalt, Krawedz, Polozenie, Krotnosc, P) :- czy_liscie(T, Ksztalt, Krawedz, Polozenie, Krotnosc, P), !.",
+    "testuj_lisciaste(T, _, _, _, _, P) :- cechy_wspolne(T, P).",
+
+    "iglaste(T, P) :- testuj_typ(iglaste), drzewo(T,_,_,_,_,_,iglaste(igly(dlugosc(Dlugosc),miekkosc(Miekkosc),kolor(Kolor)),szyszka(ksztalt(Ksztalt),wektor(Wektor)))), testuj_iglaste(T, Dlugosc, Miekkosc, Kolor, Ksztalt, Wektor, P).",
+    "testuj_iglaste(T, Dlugosc, Miekkosc, Kolor, Ksztalt, Wektor, P) :- czy_igly(T, Dlugosc, Miekkosc, Kolor, P1), czy_szyszka(T, Ksztalt, Wektor, P2), cechy_wspolne(T, P3), P is P1 + P2 + P3, !.",
+    "testuj_iglaste(T, Dlugosc, Miekkosc, Kolor, Ksztalt, Wektor, P) :- czy_igly(T, Dlugosc, Miekkosc, Kolor, P1), czy_szyszka(T, Ksztalt, Wektor, P2), P is P1 + P2, !.",
+    "testuj_iglaste(T, Dlugosc, Miekkosc, Kolor, _, _, P) :- czy_igly(T, Dlugosc, Miekkosc, Kolor, P1), cechy_wspolne(T, P2), P is P1 + P2, !.",
+    "testuj_iglaste(T, _, _, _, Ksztalt, Wektor, P) :- czy_szyszka(T, Ksztalt, Wektor, P1), cechy_wspolne(T, P2), P is P1 + P2, !.",
+    "testuj_iglaste(T, Dlugosc, Miekkosc, Kolor, _, _, P) :- czy_igly(T, Dlugosc, Miekkosc, Kolor, P), !.",
+    "testuj_iglaste(T, _, _, _, Ksztalt, Wektor, P) :- czy_szyszka(T, Ksztalt, Wektor, P).",
+    "testuj_iglaste(T, _, _, _, _, _, P) :- cechy_wspolne(T, P).",
+
+
+    "cechy_wspolne(T, P) :- drzewo(T, zimozielone(Zimozielone), kora(Kora), pokroj(Pokroj), korona(Korona), owoc(Owoc), _), testuj_cechy_wspolne(T, Zimozielone, Kora, Pokroj, Korona, Owoc, P).",
+    "testuj_cechy_wspolne(T, Zimozielone, Kora, Pokroj, Korona, Owoc, P) :- testuj_kpk(T, Kora, Pokroj, Korona, P1), czy_zimozielone(T, Zimozielone, P2), czy_owoc(T, Owoc, P3), P is P1 + P2 + P3, !.",
+    "testuj_cechy_wspolne(T, Zimozielone, Kora, Pokroj, Korona, _, P) :- testuj_kpk(T, Kora, Pokroj, Korona, P1), czy_zimozielone(T, Zimozielone, P2), P is P1 + P2, !.",
+    "testuj_cechy_wspolne(T, _, Kora, Pokroj, Korona, Owoc, P) :- testuj_kpk(T, Kora, Pokroj, Korona, P1), czy_owoc(T, Owoc, P2), P is P1 + P2, !.",
+    "testuj_cechy_wspolne(T, Zimozielone, _, _, _, Owoc, P) :- czy_zimozielone(T, Zimozielone, P1), czy_owoc(T, Owoc, P2), P is P1 + P2, !.",
+    "testuj_cechy_wspolne(T, _, Kora, Pokroj, Korona, _, P) :- testuj_kpk(T, Kora, Pokroj, Korona, P).",
+    "testuj_cechy_wspolne(T, Zimozielone, _, _, _, _, P) :- czy_zimozielone(T, Zimozielone, P).",
+    "testuj_cechy_wspolne(T, _, _, _, _, Owoc, P) :- czy_owoc(T, Owoc, P).",
+
+    "testuj_kpk(T, Kora, Pokroj, Korona, P) :- czy_kora(T, Kora, P1), czy_pokroj(T, Pokroj, P2), czy_korona(T, Korona, P3), P is P1 + P2 + P3, !.",
+    "testuj_kpk(T, Kora, Pokroj, _, P) :- czy_kora(T, Kora, P1), czy_pokroj(T, Pokroj, P2), P is P1 + P2, !.",
+    "testuj_kpk(T, _, Pokroj, Korona, P) :- czy_pokroj(T, Pokroj, P1), czy_korona(T, Korona, P2), P is P1 + P2, !.",
+    "testuj_kpk(T, Kora, _, Korona, P) :- czy_kora(T, Kora, P1), czy_korona(T, Korona, P2), P is P1 + P2, !.",
+    "testuj_kpk(T, Kora, _, _, P) :- czy_kora(T, Kora, P).",
+    "testuj_kpk(T, _, Pokroj, _, P) :- czy_pokroj(T, Pokroj, P).",
+    "testuj_kpk(T, _, _, Korona, P) :- czy_korona(T, Korona, P).",
+
+    "czy_liscie(T, Ksztalt, Krawedz, Polozenie, Krotnosc, P) :- testuj_kk(T, Ksztalt, Krawedz, P1), testuj_pk(T, Polozenie, Krotnosc, P2), P is P1 + P2, !.",
+    "czy_liscie(T, Ksztalt, Krawedz, _, _, P) :- testuj_kk(T, Ksztalt, Krawedz, P).",
+    "czy_liscie(T, _, _, Polozenie, Krotnosc, P) :- testuj_pk(T, Polozenie, Krotnosc, P).",
+
+    "testuj_kk(T, Ksztalt, Krawedz, P) :- czy_ksztalt_liscia(T, Ksztalt, P1), czy_krawedz_liscia(T, Krawedz, P2), P is P1 + P2, !.",
+    "testuj_kk(T, Ksztalt, _, P) :- czy_ksztalt_liscia(T, Ksztalt, P).",
+    "testuj_kk(T, _, Krawedz, P) :- czy_krawedz_liscia(T, Krawedz, P).",
+
+    "testuj_pk(T, Polozenie, Krotnosc, P) :-  czy_polozenie_liscia(T, Polozenie, P1), czy_krotnosc_liscia(T, Krotnosc, P2), P is P1 + P2, !.",
+    "testuj_pk(T, Polozenie, _, P) :- czy_polozenie_liscia(T, Polozenie, P).",
+    "testuj_pk(T, _, Krotnosc, P) :- czy_krotnosc_liscia(T, Krotnosc, P).",
+
+    "czy_igly(T, Dlugosc, Miekkosc, Kolor, P) :- czy_miekkosc_igly(T, Miekkosc, P1), czy_kolor_igly(T, Kolor, P2), czy_dlugosc_igly(T, Dlugosc, P3), P is P1 + P2 + P3, !.",
+    "czy_igly(T, Dlugosc, Miekkosc, _, P) :- czy_miekkosc_igly(T, Miekkosc, P1), czy_dlugosc_igly(T, Dlugosc, P2), P is P1 + P2, !.",
+    "czy_igly(T, _, Miekkosc, Kolor, P) :- czy_miekkosc_igly(T, Miekkosc, P1), czy_kolor_igly(T, Kolor, P2), P is P1 + P2, !.",
+    "czy_igly(T, Dlugosc, _, Kolor, P) :- czy_kolor_igly(T, Kolor, P1), czy_dlugosc_igly(T, Dlugosc, P2), P is P1 + P2, !.",
+    "czy_igly(T, Dlugosc, _, _, P) :- czy_dlugosc_igly(T, Dlugosc, P).",
+    "czy_igly(T, _, Miekkosc, _, P) :- czy_miekkosc_igly(T, Miekkosc, P).",
+    "czy_igly(T, _, _, Kolor, P) :- czy_kolor_igly(T, Kolor, P).",
+
 
     "testuj_typ(Typ) :- czy_prawda(typ, Typ).",
 
-    "cechy_wspolne(X) :- drzewo(X, zimozielone(Zimozielone), kora(Kora), pokroj(Pokroj), korona(Korona), owoc(Owoc), _), testuj_cechy_wspolne(Zimozielone, Kora, Pokroj, Korona, Owoc).",
-    "testuj_cechy_wspolne(Zimozielone, Kora, Pokroj, Korona, Owoc) :- testuj_kpk(Kora, Pokroj, Korona), czy_zimozielone(Zimozielone), czy_owoc(Owoc), !.",
-    "testuj_cechy_wspolne(Zimozielone, Kora, Pokroj, Korona, _) :- testuj_kpk(Kora, Pokroj, Korona), czy_zimozielone(Zimozielone), !.",
-    "testuj_cechy_wspolne(_, Kora, Pokroj, Korona, Owoc) :- testuj_kpk(Kora, Pokroj, Korona), czy_owoc(Owoc), !.",
-    "testuj_cechy_wspolne(Zimozielone, _, _, _, Owoc) :- czy_zimozielone(Zimozielone), czy_owoc(Owoc), !.",
-    "testuj_cechy_wspolne(_, Kora, Pokroj, Korona, _) :- testuj_kpk(Kora, Pokroj, Korona).",
-    "testuj_cechy_wspolne(Zimozielone, _, _, _, _) :- czy_zimozielone(Zimozielone).",
-    "testuj_cechy_wspolne(_, _, _, _, Owoc) :- czy_owoc(Owoc).",
+    "czy_ksztalt_liscia(T, X, P) :- czy_prawda(ksztalt_liscia, X), daj_punkty(T, X, P).",
+    "czy_krawedz_liscia(T, X, P) :- czy_prawda(krawedz_liscia, X), daj_punkty(T, X, P).",
 
-    "testuj_kpk(Kora, Pokroj, Korona) :- czy_kora(Kora), czy_pokroj(Pokroj), czy_korona(Korona), !.",
-    "testuj_kpk(Kora, Pokroj, _) :- czy_kora(Kora), czy_pokroj(Pokroj), !.",
-    "testuj_kpk(_, Pokroj, Korona) :- czy_pokroj(Pokroj), czy_korona(Korona), !.",
-    "testuj_kpk(Kora, _, Korona) :- czy_kora(Kora), czy_korona(Korona), !.",
-    "testuj_kpk(Kora, _, _) :- czy_kora(Kora).",
-    "testuj_kpk(_, Pokroj, _) :- czy_pokroj(Pokroj).",
-    "testuj_kpk(_, _, Korona) :- czy_korona(Korona).",
+    "czy_szyszka(T, Ksztalt, Wektor, P) :- czy_ksztalt_szyszki(T, Ksztalt, P1), czy_wektor_szyszki(T, Wektor, P2), P is P1 + P2, !.",
+    "czy_szyszka(T, Ksztalt, _, P) :- czy_ksztalt_szyszki(T, Ksztalt, P).",
+    "czy_szyszka(T, _, Wektor, P) :- czy_wektor_szyszki(T, Wektor, P).",
 
-    "czy_liscie(Ksztalt, Krawedz, Polozenie, Krotnosc) :- testuj_kk(Ksztalt, Krawedz), testuj_pk(Polozenie, Krotnosc), !.",
-    "czy_liscie(Ksztalt, Krawedz, _, _) :- testuj_kk(Ksztalt, Krawedz).",
-    "czy_liscie(_, _, Polozenie, Krotnosc) :- testuj_pk(Polozenie, Krotnosc).",
+    "czy_polozenie_liscia(T, X, P) :- czy_prawda(polozenie_liscia, X), daj_punkty(T, X, P).",
+    "czy_krotnosc_liscia(T, X, P) :- czy_prawda(krotnosc_liscia, X), daj_punkty(T, X, P).",
 
-    "testuj_kk(Ksztalt, Krawedz) :- czy_prawda(ksztalt_liscia, Ksztalt), czy_prawda(krawedz_liscia, Krawedz), !.",
-    "testuj_kk(Ksztalt, _) :- czy_prawda(ksztalt_liscia, Ksztalt).",
-    "testuj_kk(_, Krawedz) :- czy_prawda(krawedz_liscia, Krawedz).",
+    "czy_dlugosc_igly(T, X, P) :- czy_prawda(dlugosc_igly, X), daj_punkty(T, X, P).",
+    "czy_miekkosc_igly(T, X, P) :- czy_prawda(miekkosc_igly, X), daj_punkty(T, X, P).",
+    "czy_kolor_igly(T, X, P) :- czy_prawda(kolor_igly, X), daj_punkty(T, X, P).",
 
-    "testuj_pk(Polozenie, Krotnosc) :- czy_prawda(polozenie_liscia, Polozenie), czy_prawda(krotnosc_liscia, Krotnosc), !.",
-    "testuj_pk(Polozenie, _) :- czy_prawda(polozenie_liscia, Polozenie).",
-    "testuj_pk(_, Krotnosc) :- czy_prawda(krotnosc_liscia, Krotnosc).",
+    "czy_wektor_szyszki(T, X, P) :- czy_prawda(wektor_szyszki, X), daj_punkty(T, X, P).",
+    "czy_ksztalt_szyszki(T, X, P) :- czy_prawda(ksztalt_szyszki, X), daj_punkty(T, X, P).",
 
-    "czy_igly(Dlugosc, Miekkosc, Kolor) :- czy_prawda(miekkosc_igly, Miekkosc), czy_prawda(kolor_igly, Kolor), czy_prawda(dlugosc_igly, Dlugosc), !.",
-    "czy_igly(Dlugosc, Miekkosc, _) :- czy_prawda(miekkosc_igly, Miekkosc), czy_prawda(dlugosc_igly, Dlugosc), !.",
-    "czy_igly(_, Miekkosc, Kolor) :- czy_prawda(miekkosc_igly, Miekkosc), czy_prawda(kolor_igly, Kolor), !.",
-    "czy_igly(Dlugosc, _, Kolor) :- czy_prawda(kolor_igly, Kolor), czy_prawda(dlugosc_igly, Dlugosc), !.",
-    "czy_igly(Dlugosc, _, _) :- czy_prawda(dlugosc_igly, Dlugosc).",
-    "czy_igly(_, Miekkosc, _) :- czy_prawda(miekkosc_igly, Miekkosc).",
-    "czy_igly(_, _, Kolor) :- czy_prawda(kolor_igly, Kolor).",
+    "czy_zimozielone(T, X, P) :- czy_prawda(zimozielone, X), daj_punkty(T, X, P).",
+    "czy_kora(T, X, P) :- czy_prawda(kora, X), daj_punkty(T, X, P).",
+    "czy_pokroj(T, X, P) :- czy_prawda(pokroj, X), daj_punkty(T, X, P).",
+    "czy_korona(T, X, P) :- czy_prawda(korona, X), daj_punkty(T, X, P).",
 
-    "czy_szyszka(Ksztalt, Wektor) :- czy_prawda(ksztalt_szyszki, Ksztalt), czy_prawda(wektor_szyszki, Wektor), !.",
-    "czy_szyszka(Ksztalt, _) :- czy_prawda(ksztalt_szyszki, Ksztalt).",
-    "czy_szyszka(_, Wektor) :- czy_prawda(wektor_szyszki, Wektor).",
+    "czy_owoc(T, X, P) :- czy_prawda(owoc, X), daj_punkty(T, X, P).",
 
-    "czy_zimozielone(X) :- czy_prawda(zimozielone, X).",
-    "czy_kora(Kora) :- czy_prawda(kora, Kora).",
-    "czy_pokroj(Pokroj) :- czy_prawda(pokroj, Pokroj).",
-    "czy_korona(Korona) :- czy_prawda(korona, Korona).",
-    "czy_owoc(Owoc) :- czy_prawda(owoc, Owoc).",
+    "daj_punkty(T, X, P) :- specjalne_punkty(T, X, P).",
+    "daj_punkty(_, _, P) :- P is 1.",
 
     ":- dynamic([znane/2]).",
     "czy_prawda(X, [Y | _]) :- czy_prawda(X, Y), !.",
@@ -90,7 +111,7 @@ const rules = [
     "czy_prawda(X, Y) :- znane(X, Y), !."
 ]
 
-const findRule = "znajdz(X)"
+const findRule = "znajdz(T, P)"
 
 
 function getAnswersProvider(facts) {
@@ -126,7 +147,12 @@ function getAnswersProvider(facts) {
 function answerReader(session) {
     return new Promise((resolve, reject) => {
         session.answer({
-            success: answer => resolve(answer.links["X"].id),
+            success: answer => {
+                resolve({
+                    tree: answer.links["T"].id,
+                    score: answer.links["P"].value
+                })
+            },
             error: err => reject(err),
             fail: () => resolve(false),
             limit: () => reject('limit exceeded.')

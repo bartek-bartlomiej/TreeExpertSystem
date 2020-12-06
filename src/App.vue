@@ -424,8 +424,9 @@ export default {
   methods: {
     run() {
       getAnswersProvider(this.facts).then(answers => {
-        this.results = answers
         console.log(answers)
+        answers.sort((a1, a2) => a2.score - a1.score)
+        this.results = answers.slice(0, 3).map(answer => answer.tree)
       }).catch(err => {
         console.log(err)
       })
