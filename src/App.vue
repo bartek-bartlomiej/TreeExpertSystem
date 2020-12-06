@@ -312,8 +312,7 @@ export default {
           displayName: 'Wektor szyszki',
           values: [
             { name: 'wzniesiona', displayName: 'wzniesiona' },
-            { name: 'zwisajaca', displayName: 'zwisająca' },
-            { name: '?', displayName: 'dowolna' }
+            { name: 'zwisajaca', displayName: 'zwisająca' }
           ]
         }
       ],
@@ -426,6 +425,7 @@ export default {
     run() {
       getAnswersProvider(this.facts).then(answers => {
         this.results = answers
+        console.log(answers)
       }).catch(err => {
         console.log(err)
       })

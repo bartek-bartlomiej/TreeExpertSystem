@@ -10,10 +10,10 @@ const database = [
     "drzewo(brzoza,zimozielone(nie),kora(biala),pokroj(kolumnowy),korona(luzna),owoc(orzech),lisciaste(liscie(ksztalt([okraglawe, jajowate]),krawedz(pilkowana),polozenie(skretolegle),krotnosc(pojedyncze)))).",
     "drzewo(kasztanowiec,zimozielone(nie),kora([olowianoszara, ciemnobrazowa]),pokroj(okraglawy),korona(kopulasta),owoc(kasztan),lisciaste(liscie(ksztalt(palczaste),krawedz(pilkowana),polozenie(skretolegle),krotnosc(pojedyncze)))).",
 
-    "drzewo(sosna,zimozielone(tak),kora([szara, brazowa]),pokroj(stozkowaty),korona(luzna),owoc(szyszka),iglaste(igly(dlugosc(dlugie),miekkosc(klujace),kolor(niebiesko_zielone)),szyszka(ksztalt(okraglawy),wektor(?)))).",
+    "drzewo(sosna,zimozielone(tak),kora([szara, brazowa]),pokroj(stozkowaty),korona(luzna),owoc(szyszka),iglaste(igly(dlugosc(dlugie),miekkosc(klujace),kolor(niebiesko_zielone)),szyszka(ksztalt(okraglawy),wektor(wzniesiona)))).",
     "drzewo(jodla,zimozielone(tak),kora([popielata, szara]),pokroj(stozkowaty),korona(stozkowata),owoc(szyszka),iglaste(igly(dlugosc(krotkie),miekkosc(miekkie),kolor(zielony_z_2_paskami)),szyszka(ksztalt(podluzny),wektor(wzniesiona)))).",
     "drzewo(swierk,zimozielone(tak),kora(bura),pokroj(stozkowaty),korona(stozkowata),owoc(szyszka),iglaste(igly(dlugosc(krotkie),miekkosc(klujace),kolor(zielone)),szyszka(ksztalt(podluzny),wektor(zwisajaca)))).",
-    "drzewo(modrzew,zimozielone(nie),kora(brazowa),pokroj(stozkowaty),korona([stozkowata, luzna]),owoc(szyszka),iglaste(igly(dlugosc(krotkie),miekkosc(klujace),kolor(zielone)),szyszka(ksztalt(okraglawy),wektor(?))))."
+    "drzewo(modrzew,zimozielone(nie),kora(brazowa),pokroj(stozkowaty),korona([stozkowata, luzna]),owoc(szyszka),iglaste(igly(dlugosc(krotkie),miekkosc(klujace),kolor(zielone)),szyszka(ksztalt(okraglawy),wektor(wzniesiona))))."
 ]
 
 const rules = [
